@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* CSS cho phần thêm */
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        input[type="submit"] {
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: rgb(84, 247, 84);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* CSS cho bảng hiển thị dữ liệu */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+      
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: rgb(84, 247, 84);
+        }
+
+        img {
+            display: block;
+            margin: auto;
+        }
+        h1{
+            text-align: center;
+        }
+        
+    </style>
+</head>
+
+<body>
+<h1>Products:</h1>
+    <!-- Phần thêm -->
+    <form action="/save" method="post" enctype="multipart/form-data">
+        <input type="text" name="maSanPham" id="maSanPham" placeholder="Nhập mã sản phẩm">
+        <br/>
+        <input type="text" name="tenSanPham" id="tenSanPham" placeholder="Nhập tên sản phẩm">
+        <br/>
+        <input type="text" name="soluong" id="soluong" placeholder="Nhập số lượng">
+        <br/>
+        <input type="file" name="image" id="image" accept="image/*" >
+        
+        <br/>
+
+        <input type="submit" value="Thêm">
+    </form>
+
+    <!-- Phần hiển thị dữ liệu -->
+    <form action="/delete" method="post" enctype="multipart/form-data">
+        <table border="true">
+            <tr>
+                <th>Ma san pham</th>
+                <th>Ten san pham</th>
+                <th>So luong</th>
+                <th>Image</th>
+                <th>Chon</th>
+            </tr>
+            <% for (let i = 0; i < data.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= data[i].maSanPham %>
+                    </td>
+                    <td>
+                        <%= data[i].tenSanPham %>
+                    </td>
+                    <td>
+                        <%= data[i].soluong %>
+                    </td>
+                    <td>
+                        <img src="<%= data[i].image %>" alt="avt_<%=data[i].maSanPham%>" width="48" height="48">
+                    </td>
+                    <td><input type="checkbox" name="<%=data[i].maSanPham%>" id="<%= data[i].maSanPham %>"></td>
+                </tr>
+            <% } %>
+        </table>
+
+        <input type="submit" value="Xóa">
+    </form>
+</body>
+
+</html>

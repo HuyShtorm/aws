@@ -1,0 +1,306 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif; /* Chọn một font chữ phù hợp */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+caption {
+    padding: 4px;
+    margin: auto;
+    font-size: 24px;
+    font-weight: 700;
+    color: red;
+    background-color: gray;
+    width: fit-content;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: rgb(84, 247, 84);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const AWS = require('aws-sdk');
+const dotenv = require('dotenv');
+
+const PORT = 3000;
+const app = express();
+
+// Load environment variables
+dotenv.config();
+
+// Configure AWS SDK
+AWS.config.update({
+    region: process.env.REGION,
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
+});
+const s3 = new AWS.S3();
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+
+const huyshtorm = process.env.S3_BUCKET_NAME;
+const Products = process.env.DYNAMODB_TABLE_NAME;
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./view'));
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
+// Set up multer for file upload
+const storage = multer.memoryStorage({
+    destination(req, file, callback) {
+        callback(null, '');
+    },
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 2000000 },
+    fileFilter(req, file, cb) {
+        checkFileType(file, cb);
+    },
+});
+
+function checkFileType(file, cb) {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb('Error: Images Only!');
+    }
+}
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+app.post('/save', upload.single("image"), (req, res) => {
+    try {
+        const maSanPham = Number(req.body.maSanPham);
+        const tenSanPham = req.body.tenSanPham;
+        const soluong = Number(req.body.soluong);
+        const image = req.file.originalname.split(".");
+        const fileType = image[image.length - 1];
+        const filePath = `${maSanPham}_${Date.now().toString()}.${fileType}`;
+        const paramsS3 = {
+            Bucket: huyshtorm,
+            Key: filePath,
+            Body: req.file.buffer,
+            ContentType: req.file.mimetype,
+        };
+        s3.upload(paramsS3, async(err, data) => {
+            if (err) {
+                console.error("error=", err);
+                return res.send("Unternal sever eroor!");
+            } else {
+                const imageUrl = data.Location;
+                const paramsDynamoDB = {
+                    TableName: Products,
+                    Item: {
+                        maSanPham: maSanPham.toString(),
+                        tenSanPham: tenSanPham,
+                        soluong: soluong,
+                        image: imageUrl,
+                    },
+                };
+                await dynamodb.put(paramsDynamoDB).promise();
+                return res.redirect("/");
+            }
+        });
+    } catch (error) {
+        console.error('Error', error);
+        return res.status(500).send('Internal Server Error');
+    }
+});
+
+
+app.post('/delete', upload.fields([]), (req, res) => {
+    const listCheckboxSelected = Object.keys(req.body);
+    
+    if (!listCheckboxSelected || listCheckboxSelected.length <= 0) {
+        return res.redirect('/');
+    }
+    try {
+        function onDeleteItem(length) {
+            const params = {
+                TableName: Products,
+                Key: {
+                    maSanPham:(listCheckboxSelected[length]),
+                },
+            };
+            dynamodb.delete(params, (err, data) => {
+                if(err) {
+                    console.error("error=", err);
+                    return res.send("Internal Server Error!");
+                } else if (length > 0) onDeleteItem(length - 1);
+                else return res.redirect('/');
+            });
+        }
+        onDeleteItem(listCheckboxSelected.length - 1);
+    } catch (error) {
+        console.error("Error deleting data from DynamoDB", error);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+app.get("/", async(req, res) => {
+    try {
+        const params = {
+            TableName: Products,
+        };
+        const data = await dynamodb.scan(params).promise();
+        console.log("data", data.Items);
+         // Sắp xếp dữ liệu theo mã sản phẩm trước khi render
+         data.Items.sort((a, b) => a.maSanPham.localeCompare(b.maSanPham));
+        return res.render("index.ejs", {
+            data: data.Items
+        });
+    } catch (error) {
+        console.error("error", error);
+        return res.status(500).send("Internal Server Error");
+    }
+});
+
+*/
+
+
